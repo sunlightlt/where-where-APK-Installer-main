@@ -1,0 +1,70 @@
+# Universal Windows Platform
+# Build a Universal Windows Platform project using Visual Studio.
+# Add steps that test and distribute an app, save build artifacts, and more:
+# https://aka.ms/yaml
+
+trigger:
+  branches:
+    include:
+      - main
+      - perview
+  paths:
+    include:
+      - APKInstaller/**
+
+pr:
+  branches:
+    include:
+      - main
+      - perview
+  paths:
+    include:
+      - APKInstaller/**
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  solution: '*.sln'
+  buildPlatform: 'x86|x64|ARM64'
+  buildConfiguration: 'Release'
+  appxPackageDir: '$(build.artifactStagingDirectory)\AppxPackages\\'
+
+steps:
+- task: UseDotNet@2
+  displayName: 'Setup .NET Core'
+  inputs:
+    packageType: sdk
+    version: 8.0.x
+    includePreviewVersions: true
+
+- task: VSBuild@1
+  displayName: 'Restore Solution'
+  inputs:
+    platform: 'x64'
+    solution: '$(solution)'
+    configuration: '$(buildConfiguration)'
+    msbuildArgs: '/t:restore'
+    msbuildArchitecture: 'x64'
+    maximumCpuCount: true
+
+- task: VSBuild@1
+  displayName: 'Build Solution'
+  inputs:
+    platform: 'x64'
+    solution: '$(solution)'
+    configuration: '$(buildConfiguration)'
+    msbuildArgs: '/p:AppxBundlePlatforms="$(buildPlatform)"
+                  /p:AppxPackageDir="$(appxPackageDir)"
+                  /p:AppxBundle=Always
+                  /p:UapAppxPackageBuildMode=SideloadOnly
+                  /p:GenerateAppxPackageOnBuild=true
+                  /p:AppxPackageSigningEnabled=false'
+    msbuildArchitecture: 'x64'
+    maximumCpuCount: true
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact'
+  inputs:
+    ArtifactName: 'MSIX Package'
+    PathtoPublish: '$(build.artifactstagingdirectory)'
