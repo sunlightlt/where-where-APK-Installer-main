@@ -78,12 +78,4 @@ An Android Application Installer for Windows
 - [Advanced Sharp Adb Client](https://github.com/yungd1plomat/AdvancedSharpAdbClient "Advanced Sharp Adb Client")
 - [Windows Community Toolkit](https://github.com/CommunityToolkit/WindowsCommunityToolkit "Windows Community Toolkit")
 
-## 参与人员
-[![Contributors](https://contrib.rocks/image?repo=Paving-Base/APK-Installer)](https://github.com/Paving-Base/APK-Installer/graphs/contributors)
 
-## 鸣谢
-- 所有为 APK Installer 做出贡献的同志们
-- **铺路尚未成功，同志仍需努力！**
-
-## Star 数量统计
-[![Star 数量统计](https://starchart.cc/Paving-Base/APK-Installer.svg)](https://starchart.cc/Paving-Base/APK-Installer "Star 数量统计")
